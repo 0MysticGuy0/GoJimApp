@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkBackground">
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Супер Имя"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/userIconCardView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/userAge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="18 лет"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@id/userIconCardView"
+            app:layout_constraintTop_toBottomOf="@id/userName" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/userIconCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/userIcon"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:scaleX="1.1"
+                android:scaleY="1.1"
+                android:src="@drawable/test" />
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+        <Button
+            android:id="@+id/homePage_trainBtn"
+            android:text="мои тренировки"
+            app:icon="@drawable/baseline_article_24"
+            style="@style/BtnStyle01" />
+
+        <Button
+            android:id="@+id/homePage_progrressBtn"
+            style="@style/BtnStyle01"
+            android:text="ПРОГРЕСС"
+            app:icon="@drawable/baseline_show_chart_24"/>
+
+        <Button
+            android:id="@+id/homePage_optionsBtn"
+            style="@style/BtnStyle01"
+            android:text="Настройки"
+            app:icon="@drawable/baseline_settings_24"/>
+    </LinearLayout>
+
+</LinearLayout>

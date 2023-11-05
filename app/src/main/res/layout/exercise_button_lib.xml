@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:background="#C2C2C3"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/exerciseButton_exerciseButton"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkBackground"
+        android:backgroundTint="#000000"
+        android:paddingStart="8dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:text="упражнение"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/exerciseButton_showExerciseParametersBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="exercise parameters"
+        android:src="@drawable/baseline_article_24"
+        app:layout_constraintBottom_toTopOf="@id/exerciseButton_extraTab"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/exerciseButton_exerciseButton"
+        app:tint="#4A4046" />
+
+    <ImageButton
+        android:id="@+id/exerciseButton_showTechnicsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="exercise technics"
+        android:src="@drawable/baseline_play_circle_filled_24"
+        app:layout_constraintBottom_toTopOf="@id/exerciseButton_extraTab"
+        app:layout_constraintStart_toEndOf="@id/exerciseButton_showExerciseParametersBtn"
+        app:layout_constraintTop_toBottomOf="@+id/exerciseButton_exerciseButton"
+        app:tint="#4A4046" />
+
+    <LinearLayout
+        android:id="@+id/exerciseButton_extraTab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
