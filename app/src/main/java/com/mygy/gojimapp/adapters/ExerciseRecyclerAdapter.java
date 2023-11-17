@@ -1,6 +1,7 @@
 package com.mygy.gojimapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mygy.gojimapp.ExerciseInfoAcivity;
+import com.mygy.gojimapp.MainActivity;
 import com.mygy.gojimapp.R;
+import com.mygy.gojimapp.TrainingProgramActivity;
 import com.mygy.gojimapp.data.Exercise;
+import com.mygy.gojimapp.data.ProgressParameter;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
@@ -59,6 +67,20 @@ public class ExerciseRecyclerAdapter extends RecyclerView.Adapter<ExerciseRecycl
         holder.techniqueBtn.setOnClickListener(v -> {
             changeExtraTab(exercise, Exercise.ExtraTab.TECHNIQUE,holder);
         });
+
+        holder.addParametersBn.setOnClickListener(v -> {
+            System.out.println(inflater.getContext().getClass().getName());
+            if(inflater.getContext() instanceof FragmentActivity) {
+                ProgressParameter.createSaveParameterPopup(exercise.getProgressParameters(), (FragmentActivity)inflater.getContext());
+            }
+            closeLastOpenedExtraTab();
+        });
+
+        holder.exerciseBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(inflater.getContext(), ExerciseInfoAcivity.class);
+            intent.putExtra(Exercise.class.getSimpleName(), exercise);
+            inflater.getContext().startActivity(intent);
+        });
     }
 
     @Override
@@ -83,7 +105,7 @@ public class ExerciseRecyclerAdapter extends RecyclerView.Adapter<ExerciseRecycl
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final Button exerciseBtn;
         public final LinearLayout extraTab;
-        public final ImageButton exerciseParameters, techniqueBtn;
+        public final ImageButton exerciseParameters, techniqueBtn, addParametersBn;
 
         ViewHolder(View view) {
             super(view);
@@ -91,6 +113,7 @@ public class ExerciseRecyclerAdapter extends RecyclerView.Adapter<ExerciseRecycl
             extraTab = view.findViewById(R.id.exerciseButton_extraTab);
             exerciseParameters = view.findViewById(R.id.exerciseButton_showExerciseParametersBtn);
             techniqueBtn = view.findViewById(R.id.exerciseButton_showTechnicsBtn);
+            addParametersBn = view.findViewById(R.id.exerciseButton_addParameters);
         }
 
         public void replaceExtraTab(Exercise exercise,Exercise.ExtraTab newTab, LayoutInflater inflater) {
@@ -109,15 +132,22 @@ public class ExerciseRecyclerAdapter extends RecyclerView.Adapter<ExerciseRecycl
                         ((TextView)tab.findViewById(R.id.exerciseParametersTable_recommendedSets)).setText(exercise.getReccomendedSets());
                         ((TextView)tab.findViewById(R.id.exerciseParametersTable_recommendedReps)).setText(exercise.getReccomendedReps());
 
-                        double[] lastParameters = exercise.getProgressParametersList()
-                                .get(exercise.getProgressParametersList().size()-1).getValues();//список сохраненных в последний раз показателей упражнения(вес, повторения, подходы)
-
+                        List<Double> lastParameters;
+                        try {
+                            lastParameters = exercise.getProgressParametersList()
+                                    .get(exercise.getProgressParametersList().size() - 1).getValues();//список сохраненных в последний раз показателей упражнения(вес, повторения, подходы)
+                        }catch (RuntimeException ex){
+                            lastParameters = new ArrayList<>();
+                            lastParameters.add(0.0);
+                            lastParameters.add(0.0);
+                            lastParameters.add(0.0);
+                        }
                         ((TextView)tab.findViewById(R.id.exerciseParametersTable_lastWeight))
-                                .setText(Double.toString(lastParameters[0]));
+                                .setText(Double.toString(lastParameters.get(0)));
                         ((TextView)tab.findViewById(R.id.exerciseParametersTable_lastReps))
-                                .setText(Double.toString(lastParameters[1]));
+                                .setText(Double.toString(lastParameters.get(1)));
                         ((TextView)tab.findViewById(R.id.exerciseParametersTable_lastSets))
-                                .setText(Integer.toString((int)lastParameters[2]));
+                                .setText(Integer.toString((int)(double)(lastParameters.get(2))));
 
                         break;
                     case TECHNIQUE:

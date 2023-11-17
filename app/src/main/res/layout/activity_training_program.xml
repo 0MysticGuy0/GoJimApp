@@ -14,6 +14,12 @@
         android:orientation="horizontal"
         android:background="@color/darkBackground"
         android:padding="4dp">
+        <ImageButton
+            android:id="@+id/trainingProgramContent_backBtn"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:background="#00FFFFFF"
+            android:src="@drawable/baseline_keyboard_arrow_left_24" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="70dp"

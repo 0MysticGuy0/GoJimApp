@@ -14,7 +14,7 @@
         android:background="@color/darkBackground">
 
         <TextView
-            android:id="@+id/userName"
+            android:id="@+id/homePage_userName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/userAge"
+            android:id="@+id/homePage_userAge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -37,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@id/userIconCardView"
-            app:layout_constraintTop_toBottomOf="@id/userName" />
+            app:layout_constraintTop_toBottomOf="@id/homePage_userName" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/userIconCardView"
@@ -50,7 +50,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/userIcon"
+                android:id="@+id/homePage_userIcon"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:scaleX="1.1"
@@ -79,7 +79,7 @@
             app:icon="@drawable/baseline_show_chart_24"/>
 
         <Button
-            android:id="@+id/homePage_optionsBtn"
+            android:id="@+id/homePage_settingsBtn"
             style="@style/BtnStyle01"
             android:text="Настройки"
             app:icon="@drawable/baseline_settings_24"/>

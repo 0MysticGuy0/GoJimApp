@@ -13,10 +13,13 @@
         android:theme="@style/Theme.GoJimApp"
         tools:targetApi="31">
         <activity
-            android:name=".TrainingProgramActivity"
+            android:name=".mainPage.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ExerciseInfoAcivity"
+            android:exported="false" />
+        <activity
+            android:name=".EnteringActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +27,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".TrainingProgramActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

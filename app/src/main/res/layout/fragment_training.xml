@@ -21,10 +21,12 @@
         android:layout_width="match_parent"
         android:text="упражнения"
         app:icon="@drawable/baseline_article_24" />
+
     <Button
         android:id="@+id/trainingPage_calculatorsBtn"
         style="@style/BtnStyle01"
         android:layout_width="match_parent"
         android:text="калькулятор"
+        android:visibility="gone"
         app:icon="@drawable/baseline_calculate_24" />
 </LinearLayout>

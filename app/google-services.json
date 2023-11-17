@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "85870576506",
+    "project_id": "gojimapp-2e779",
+    "storage_bucket": "gojimapp-2e779.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85870576506:android:eb35bdbc5203b07b734cc3",
+        "android_client_info": {
+          "package_name": "com.mygy.gojimapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4pygDlBBnAJ4ZV_i_4uRkp3bMBx66axw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

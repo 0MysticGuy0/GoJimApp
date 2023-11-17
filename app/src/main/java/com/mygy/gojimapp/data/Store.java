@@ -31,6 +31,8 @@ public class Store {
     public static final Exercise seatedInclineDumbbellCurl;
 
     public static final TrainingProgramm program01;
+    public static final TrainingProgramm program02;
+
 
     static {
         squat = new Exercise("Присед со штангой","3-5","6-10", R.drawable.squat,new MuscleGroup[]{MuscleGroup.LEGS});
@@ -61,6 +63,11 @@ public class Store {
         seatedInclineDumbbellCurl = new Exercise("Сгибание рук с гантелями сидя под углом","3","8-12", R.drawable.seated_incline_dumbbell_curl,new MuscleGroup[]{MuscleGroup.ARMS});
 
         program01=new TrainingProgramm("Базовый комплекс упражнений для мужчин на массу и силу",
+                new TrainingDay("Ноги и печи",hyperextension,squat,legPress,romanianDeadlift,barbellOverheadPress,dumbbellShoulderPress,dumbbellLateralRaise),
+                new TrainingDay("Спина и грудь", captainsChairLegRaise, benchPress,wideGripPullup,dumbbellBenchPress,dumbbellFly,barbellBentOverRow,cableSeatedRow,dumbbellPullover),
+                new TrainingDay("Бицепс и трицепс", hyperextension,declineSitUps,dips,dumbbellScullCrusher,pushDown,narrowGripPullup,hammerCurl,seatedInclineDumbbellCurl)
+        );
+        program02 = new TrainingProgramm("Тренировка на повышение жима лёжа",
                 new TrainingDay("Ноги и печи",hyperextension,squat,legPress,romanianDeadlift,barbellOverheadPress,dumbbellShoulderPress,dumbbellLateralRaise),
                 new TrainingDay("Спина и грудь", captainsChairLegRaise, benchPress,wideGripPullup,dumbbellBenchPress,dumbbellFly,barbellBentOverRow,cableSeatedRow,dumbbellPullover),
                 new TrainingDay("Бицепс и трицепс", hyperextension,declineSitUps,dips,dumbbellScullCrusher,pushDown,narrowGripPullup,hammerCurl,seatedInclineDumbbellCurl)

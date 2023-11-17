@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -26,11 +27,19 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation ("com.github.lecho:hellocharts-library:1.5.8@aar")
+    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
+    implementation("com.google.firebase:firebase-analytics")
+
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore:24.9.1")
+    implementation ("com.github.dhaval2404:imagepicker:2.1")
+
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

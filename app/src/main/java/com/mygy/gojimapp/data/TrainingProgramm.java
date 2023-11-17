@@ -7,6 +7,7 @@ import java.util.List;
 
 public class TrainingProgramm implements Serializable {
     private String name = "Супер программа";
+    private String description = "Супер программа";
     private List<TrainingDay> trainingDays = new ArrayList<>();
     private static final ArrayList<TrainingProgramm> allPrograms=new ArrayList<>();
 
@@ -26,14 +27,21 @@ public class TrainingProgramm implements Serializable {
     public String getName() {
         return name;
     }
-
     public List<TrainingDay> getTrainingDays() {
         return trainingDays;
     }
-    public void addTrainingDay(TrainingDay trainingDay){
-        trainingDays.add(trainingDay);
-    }
     public static ArrayList<TrainingProgramm> getAllPrograms(){
         return allPrograms;
+    }
+    public static TrainingProgramm getTrainingProgramByName(String name){
+        for(TrainingProgramm tp:allPrograms){
+            if(tp.getName().equals(name)) return tp;
+        }
+
+        return null;
+    }
+
+    public void addTrainingDay(TrainingDay trainingDay){
+        trainingDays.add(trainingDay);
     }
 }

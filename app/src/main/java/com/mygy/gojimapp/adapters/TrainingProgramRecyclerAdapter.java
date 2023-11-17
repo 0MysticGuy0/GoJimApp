@@ -52,6 +52,7 @@ public class TrainingProgramRecyclerAdapter extends RecyclerView.Adapter<Trainin
             }
             else {
                 MainActivity.user.getFavPrograms().remove(program);
+                MainActivity.user.updateFavProgramInDoc();
                 holder.favBtn.setImageResource(R.drawable.baseline_star_24);
             }
         });

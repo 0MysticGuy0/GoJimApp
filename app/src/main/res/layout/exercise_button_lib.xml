@@ -31,25 +31,32 @@
         android:id="@+id/exerciseButton_showExerciseParametersBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#00FFFFFF"
         android:contentDescription="exercise parameters"
         android:src="@drawable/baseline_article_24"
+        android:tint="#000000"
         app:layout_constraintBottom_toTopOf="@id/exerciseButton_extraTab"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/exerciseButton_exerciseButton"
-        app:tint="#4A4046" />
+        app:layout_constraintTop_toBottomOf="@id/exerciseButton_exerciseButton" />
 
     <ImageButton
         android:id="@+id/exerciseButton_showTechnicsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#00FFFFFF"
         android:contentDescription="exercise technics"
         android:src="@drawable/baseline_play_circle_filled_24"
         app:layout_constraintBottom_toTopOf="@id/exerciseButton_extraTab"
         app:layout_constraintStart_toEndOf="@id/exerciseButton_showExerciseParametersBtn"
-        app:layout_constraintTop_toBottomOf="@+id/exerciseButton_exerciseButton"
-        app:tint="#4A4046" />
+        app:layout_constraintTop_toBottomOf="@+id/exerciseButton_exerciseButton" />
+
+    <ImageButton
+        android:id="@+id/exerciseButton_addParameters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="add exercise results"
+        android:src="@drawable/baseline_note_add_24"
+        app:layout_constraintBottom_toTopOf="@id/exerciseButton_extraTab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exerciseButton_exerciseButton" />
 
     <LinearLayout
         android:id="@+id/exerciseButton_extraTab"

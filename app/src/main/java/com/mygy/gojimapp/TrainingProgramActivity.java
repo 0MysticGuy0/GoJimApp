@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mygy.gojimapp.adapters.TrainingDayRecyclerAdapter;
@@ -16,6 +17,10 @@ public class TrainingProgramActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_program);
 
+        ImageButton backBtn = findViewById(R.id.trainingProgramContent_backBtn);
+        backBtn.setOnClickListener(v -> {
+            finish();
+        });
 
         Bundle arguments = getIntent().getExtras();
         TrainingProgramm program;

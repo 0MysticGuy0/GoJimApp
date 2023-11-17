@@ -17,8 +17,7 @@ public class Exercise implements Serializable {
     private final String reccomendedSets,reccomendedReps;
     private transient ExtraTab openedExtraTab = ExtraTab.NONE;
     private final MuscleGroup[] usedMuscleGroups;
-    private ProgressParameter progressParameters = null;
-
+    private ExerciseProgressParameter progressParameters = null;
     public static final ArrayList<Exercise> allExercises = new ArrayList<>();
     public static final ArrayList<Exercise> allBodyExercises = new ArrayList<>();
     public static final ArrayList<Exercise> allArmsExercises = new ArrayList<>();
@@ -42,17 +41,27 @@ public class Exercise implements Serializable {
             }
         }
 
-        addParameter(new ProgressParameter.Parameter(new Date(),0,10,1));
     }
 
-    public void addParameter(ProgressParameter.Parameter parameter){
+
+    public ExerciseProgressParameter getProgressParameters() {
         if(progressParameters == null) {
-            progressParameters = new ProgressParameter(name, ProgressParameter.Group.EXERCISES,
-                    new ProgressParameter.ParameterInfo("вес","кг"),
-                    new ProgressParameter.ParameterInfo("повторения","раз"),
-                    new ProgressParameter.ParameterInfo("подходы","раз"));
+            progressParameters = ExerciseProgressParameter.getExercisesParameterByName(name);
+            System.out.println("\nppppppp\n");
+            for(ExerciseProgressParameter ep:ProgressParameter.allExercisesParameters){
+                System.out.println(ep.getName());
+            }
+            System.out.println("\nppppppp\n");
+            //System.out.println("ppp\n"+ProgressParameter.allExercisesParameters+"\nppp");
+            if(progressParameters == null){
+                System.out.println("не гружу упр парам");
+                progressParameters = new ExerciseProgressParameter(name);
+            }
         }
-        progressParameters.addParameter(parameter);
+        return progressParameters;
+    }
+    public ArrayList<ProgressParameter.Parameter> getProgressParametersList() {
+        return progressParameters.getParameters();
     }
 
     public String getName() {
@@ -83,9 +92,6 @@ public class Exercise implements Serializable {
         return reccomendedReps;
     }
 
-    public ArrayList<ProgressParameter.Parameter> getProgressParametersList() {
-        return progressParameters.getParameters();
-    }
     public static Exercise getExerciseByName(String name){
         for(Exercise exercise:allExercises){
             if(exercise.getName().equals(name)) return exercise;
@@ -98,7 +104,7 @@ public class Exercise implements Serializable {
         TECHNIQUE,
         NONE
     }
-    public static enum MuscleGroup{
+    public static enum MuscleGroup implements Serializable{
         BODY,
         ARMS,
         LEGS
