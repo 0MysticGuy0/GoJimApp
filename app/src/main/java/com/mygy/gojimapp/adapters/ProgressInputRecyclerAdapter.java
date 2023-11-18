@@ -34,8 +34,9 @@ public class ProgressInputRecyclerAdapter extends RecyclerView.Adapter<ProgressI
 
     @Override
     public void onBindViewHolder(ProgressInputRecyclerAdapter.ViewHolder holder, int position) {
-        String parameterName = parameterInfo.get(position).getParameterName();
-        holder.parameterName.setText(parameterName);
+        ProgressParameter.ParameterInfo paramInf = parameterInfo.get(position);
+        holder.parameterName.setText(paramInf.getParameterName());
+        holder.parameterUnit.setText(paramInf.getParameterUnit());
         inputs[position] = holder.input;
 
         //InputMethodManager inputMananger = (InputMethodManager) inflater.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -50,11 +51,12 @@ public class ProgressInputRecyclerAdapter extends RecyclerView.Adapter<ProgressI
     public EditText[] getInputs(){return inputs;}
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView parameterName;
+        final TextView parameterName, parameterUnit;
         final EditText input;
         ViewHolder(View view){
             super(view);
             parameterName = view.findViewById(R.id.parameterInput_name);
+            parameterUnit = view.findViewById(R.id.parameterInput_unit);
             input = view.findViewById(R.id.parameterInput_input);
         }
     }

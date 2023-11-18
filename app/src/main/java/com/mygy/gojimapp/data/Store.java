@@ -29,15 +29,29 @@ public class Store {
     public static final Exercise pushDown;
     public static final Exercise hammerCurl;
     public static final Exercise seatedInclineDumbbellCurl;
+    public static final Exercise leverCableRearPulldown;
+    public  static final Exercise wristCurl;
+    public  static final Exercise reverseWristCurl;
+    public  static final Exercise vBarLatPulldown;
+    public  static final Exercise pushUpLargeGrip;
+    public  static final Exercise hackSquatCalfRaise;
+    public  static final Exercise fullCranchMachine;
+    public  static final Exercise deadLift;
+    public  static final Exercise dumbbellLunge;
+    public  static final Exercise barbellUprightRow;
 
     public static final TrainingProgramm program01;
-    public static final TrainingProgramm program02;
+    public static final TrainingProgramm program02_newbie;
+
 
 
     static {
         squat = new Exercise("Присед со штангой","3-5","6-10", R.drawable.squat,new MuscleGroup[]{MuscleGroup.LEGS});
         legPress = new Exercise("Жим ногами в тренажёре","3-4","8-12", R.drawable.leg_press,new MuscleGroup[]{MuscleGroup.LEGS});
         romanianDeadlift = new Exercise("Становая тяга на прямых ногах","3-4","8-12", R.drawable.romanian_deadlift,new MuscleGroup[]{MuscleGroup.LEGS,MuscleGroup.BODY});
+        hackSquatCalfRaise = new Exercise("Подъем на носки в тренажере стоя","3","15-20",R.drawable.hack_squat_calf_raise,new MuscleGroup[]{MuscleGroup.LEGS});
+        deadLift = new Exercise("Становая тяга со штангой","4-5","6-10",R.drawable.deadlift,new MuscleGroup[]{MuscleGroup.LEGS});
+        dumbbellLunge = new Exercise("Выпады с гантелями","3-4","8-12",R.drawable.dumbbell_lunge,new MuscleGroup[]{MuscleGroup.LEGS});
 
         hyperextension = new Exercise("Гиперэкстензия","3","10-15", R.drawable.hyperextension,new MuscleGroup[]{MuscleGroup.BODY});
         benchPress = new Exercise("Жим штанги лёжа","3-5","6-10", R.drawable.bench_press,new MuscleGroup[]{MuscleGroup.BODY});
@@ -50,27 +64,40 @@ public class Store {
         dumbbellFly = new Exercise("Разводки с гантелями лёжа под углом","3","10-15", R.drawable.dumbbell_fly,new MuscleGroup[]{MuscleGroup.BODY});
         barbellBentOverRow = new Exercise("Тяга штанги в наклоне","3-4","6-10", R.drawable.barbell_bent_over_row,new MuscleGroup[]{MuscleGroup.BODY});
         pullUp = new Exercise("Подтягивания","3","6-12", R.drawable.pullup,new MuscleGroup[]{MuscleGroup.BODY,MuscleGroup.ARMS});
+        leverCableRearPulldown = new Exercise("Тяга за голову с верхнего блока","3-4","10-15",R.drawable.lever_cable_rear_pulldown,new MuscleGroup[]{MuscleGroup.BODY});
+        vBarLatPulldown = new Exercise("Тягая с верхнего блока узким хватом","3-4","10-15",R.drawable.vbar_lat_pulldown,new MuscleGroup[]{MuscleGroup.BODY});
+        pushUpLargeGrip = new Exercise("Отжимания широким хватом","3-4","10-15",R.drawable.pushup_large_grip,new MuscleGroup[]{MuscleGroup.BODY});
+        fullCranchMachine = new Exercise("Скручивания на тренажёре","3","10-15",R.drawable.full_crunch_machine,new MuscleGroup[]{MuscleGroup.BODY});
 
         barbellCurl = new Exercise("Подъем штанги на бицепс","3","10-15", R.drawable.barbell_curl,new MuscleGroup[]{MuscleGroup.ARMS});
         narrowGripPullup = new Exercise("Подтягивания обратным хватом","3-4","6-15",R.drawable.chin_up,new MuscleGroup[]{MuscleGroup.ARMS});
         dips = new Exercise("Отжимания от брусьев","3-4","6-15", R.drawable.triceps_dips,new MuscleGroup[]{MuscleGroup.ARMS,MuscleGroup.BODY});
         barbellOverheadPress = new Exercise("Жим штанги с груди стоя","3-4","6-10", R.drawable.barbell_overhead_press,new MuscleGroup[]{MuscleGroup.ARMS});
+        barbellUprightRow = new Exercise("Протяжка со штангой","3","10-15",R.drawable.barbell_upright_row,new MuscleGroup[]{MuscleGroup.ARMS});
         dumbbellShoulderPress = new Exercise("Жим гантелей сидя","3","8-12", R.drawable.dumbbell_shoulder_press,new MuscleGroup[]{MuscleGroup.ARMS});
         dumbbellLateralRaise = new Exercise("Махи гантелями в стороны","3","10-15", R.drawable.dumbbell_lateral_raise,new MuscleGroup[]{MuscleGroup.ARMS});
         dumbbellScullCrusher = new Exercise("Французский жим с гантелями лёжа","3","10-15", R.drawable.dumbbell_scull_crusher,new MuscleGroup[]{MuscleGroup.ARMS});
         pushDown = new Exercise("Разгибание рук с верхнего блока","3","10-15", R.drawable.pushdown,new MuscleGroup[]{MuscleGroup.ARMS});
         hammerCurl = new Exercise("Сгибание рук с гантелями \"молот\"","3","10-15", R.drawable.dumbbell_hammer_curl,new MuscleGroup[]{MuscleGroup.ARMS});
         seatedInclineDumbbellCurl = new Exercise("Сгибание рук с гантелями сидя под углом","3","8-12", R.drawable.seated_incline_dumbbell_curl,new MuscleGroup[]{MuscleGroup.ARMS});
+        wristCurl = new Exercise("Сгибание запястий со штангой сидя","3","10-15",R.drawable.wrist_curl,new MuscleGroup[]{MuscleGroup.ARMS});
+        reverseWristCurl = new Exercise("Разгибание запястий со штангой сидя","3","10-15",R.drawable.reverse_wrist_curl,new MuscleGroup[]{MuscleGroup.ARMS});
 
-        program01=new TrainingProgramm("Базовый комплекс упражнений для мужчин на массу и силу",
+
+        program01=new TrainingProgramm("Базовый комплекс на массу и силу",
+                TrainingProgramm.Difficulty.MEDIUM,
                 new TrainingDay("Ноги и печи",hyperextension,squat,legPress,romanianDeadlift,barbellOverheadPress,dumbbellShoulderPress,dumbbellLateralRaise),
                 new TrainingDay("Спина и грудь", captainsChairLegRaise, benchPress,wideGripPullup,dumbbellBenchPress,dumbbellFly,barbellBentOverRow,cableSeatedRow,dumbbellPullover),
                 new TrainingDay("Бицепс и трицепс", hyperextension,declineSitUps,dips,dumbbellScullCrusher,pushDown,narrowGripPullup,hammerCurl,seatedInclineDumbbellCurl)
         );
-        program02 = new TrainingProgramm("Тренировка на повышение жима лёжа",
-                new TrainingDay("Ноги и печи",hyperextension,squat,legPress,romanianDeadlift,barbellOverheadPress,dumbbellShoulderPress,dumbbellLateralRaise),
-                new TrainingDay("Спина и грудь", captainsChairLegRaise, benchPress,wideGripPullup,dumbbellBenchPress,dumbbellFly,barbellBentOverRow,cableSeatedRow,dumbbellPullover),
-                new TrainingDay("Бицепс и трицепс", hyperextension,declineSitUps,dips,dumbbellScullCrusher,pushDown,narrowGripPullup,hammerCurl,seatedInclineDumbbellCurl)
-        );
+
+        program02_newbie = new TrainingProgramm("План для новичков",
+                TrainingProgramm.Difficulty.EASY,
+                new TrainingDay(" ",declineSitUps,hyperextension,squat,benchPress,leverCableRearPulldown,dumbbellPullover,reverseWristCurl,wristCurl),
+                new TrainingDay(" ",captainsChairLegRaise,dips,vBarLatPulldown,dumbbellScullCrusher,barbellCurl,pushUpLargeGrip,hackSquatCalfRaise),
+                new TrainingDay(" ",hyperextension,fullCranchMachine,deadLift,dumbbellLunge,barbellOverheadPress,barbellUprightRow,dumbbellLateralRaise)
+                );
+        program02_newbie.setIcoRes(R.drawable.newbie);
+
     }
 }

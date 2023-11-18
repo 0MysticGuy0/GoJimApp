@@ -69,7 +69,7 @@ public class ExerciseRecyclerAdapter extends RecyclerView.Adapter<ExerciseRecycl
         });
 
         holder.addParametersBn.setOnClickListener(v -> {
-            System.out.println(inflater.getContext().getClass().getName());
+            //System.out.println(inflater.getContext().getClass().getName());
             if(inflater.getContext() instanceof FragmentActivity) {
                 ProgressParameter.createSaveParameterPopup(exercise.getProgressParameters(), (FragmentActivity)inflater.getContext());
             }

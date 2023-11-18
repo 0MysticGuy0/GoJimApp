@@ -54,6 +54,11 @@ public class EnteringActivity extends AppCompatActivity {
 
         loadingGif = findViewById(R.id.enter_load);
 
+        String[] savedLoginData = User.readLoginDataFromFile(this);
+        if(savedLoginData != null && !savedLoginData[0].equals("") && !savedLoginData[1].equals("")){
+            logIn(savedLoginData[0], savedLoginData[1]);
+        }
+
         Button signinBtn = findViewById(R.id.enter_signinBtn);
         signinBtn.setOnClickListener(v -> {
             showLoginWindow();
@@ -65,7 +70,54 @@ public class EnteringActivity extends AppCompatActivity {
         });
     }
 
+    private void logIn(String email,String passwd){
+        loadingGif.setVisibility(View.VISIBLE);
+        auth.signInWithEmailAndPassword(email,passwd)
+                .addOnSuccessListener(res -> {
 
+                    usersBase.collection(Constants.USERS_BASE)
+                            .whereEqualTo(Constants.USER_EMAIL,email)
+                            .get()
+                            .addOnCompleteListener( task -> {
+                                if(task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0){
+                                    DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                                    try {
+                                        HashMap<String, Object> hm = (HashMap<String, Object>) documentSnapshot.getData();
+                                        System.out.println("Loaded==============\n"+hm+"\n===============");
+
+                                        Store.squat.getName();//чтобы вызвать статик-блок в сторадж // НУЖНО ИСПРАВИТЬ!!!
+
+                                        user = new User(hm);
+                                        if(user.getDockId() == null){
+                                            user.setDockId(documentSnapshot.getId());
+                                        }
+                                        user.setPassword(passwd);
+                                        user.saveLoginDataToFile(this);
+                                        MainActivity.user = user;
+                                        startActivity(new Intent(EnteringActivity.this,MainActivity.class));
+                                        finish();
+                                    }
+                                    catch (NullPointerException ex){
+                                        ex.printStackTrace();
+                                        System.out.println("++++++++++++LOGINERROR+++++++++++++"+ex.getMessage());
+                                        loadingGif.setVisibility(View.GONE);
+                                        throw new RuntimeException();
+                                    }
+
+                                }
+                            }).addOnFailureListener( ex -> {
+                                System.out.println("++++++++++++LOGINERROR2+++++++++++++"+ex.getMessage());
+                                loadingGif.setVisibility(View.GONE);
+                                throw new RuntimeException();
+                            });
+                })
+                .addOnFailureListener(ex -> {
+                    System.out.println("++++++++++++LOGINERROR3+++++++++++++"+ex.getMessage());
+                    Toast.makeText(getApplicationContext(),"Ошибка авторизаци! "+ex.getMessage(),Toast.LENGTH_SHORT).show();
+                    loadingGif.setVisibility(View.GONE);
+                });
+
+    }
     private void showLoginWindow(){
         AlertDialog.Builder a_builder = new AlertDialog.Builder(this);
         final View loginView = getLayoutInflater().inflate(R.layout.login_window,null);
@@ -85,55 +137,15 @@ public class EnteringActivity extends AppCompatActivity {
         });
 
         add.setOnClickListener(v -> {
-                String email = emailET.getText().toString();
-                String passwd = passwdET.getText().toString();
+            String email = emailET.getText().toString();
+            String passwd = passwdET.getText().toString();
 
-                if( email.length()==0 || passwd.length() == 0) {
-                    Toast.makeText(getApplicationContext(),"Введите все данные!",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                auth.signInWithEmailAndPassword(email,passwd)
-                        .addOnSuccessListener(res -> {
-
-                            usersBase.collection(Constants.USERS_BASE)
-                                    .whereEqualTo(Constants.USER_EMAIL,email)
-                                    .get()
-                                    .addOnCompleteListener( task -> {
-                                        if(task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0){
-                                            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                                            try {
-                                                HashMap<String, Object> hm = (HashMap<String, Object>) documentSnapshot.getData();
-                                                System.out.println("Loaded==============\n"+hm+"\n===============");
-
-                                                Store.squat.getName();//чтобы вызвать статик-блок в сторадж // НУЖНО ИСПРАВИТЬ!!!
-
-                                                user = new User(hm);
-                                                if(user.getDockId() == null){
-                                                    user.setDockId(documentSnapshot.getId());
-                                                }
-                                                MainActivity.user = user;
-                                                startActivity(new Intent(EnteringActivity.this,MainActivity.class));
-                                                finish();
-                                            }
-                                            catch (NullPointerException ex){
-                                                ex.printStackTrace();
-                                                System.out.println("++++++++++++LOGINERROR+++++++++++++"+ex.getMessage());
-                                                throw new RuntimeException();
-                                            }
-
-                                        }
-                                    }).addOnFailureListener( ex -> {
-                                        System.out.println("++++++++++++LOGINERROR2+++++++++++++"+ex.getMessage());
-                                        throw new RuntimeException();
-                                    });
-                        })
-                        .addOnFailureListener(ex -> {
-                            System.out.println("++++++++++++LOGINERROR3+++++++++++++"+ex.getMessage());
-                            Toast.makeText(getApplicationContext(),"Ошибка авторизаци! "+ex.getMessage(),Toast.LENGTH_SHORT).show();
-                        });
+            if( email.length()==0 || passwd.length() == 0) {
+                Toast.makeText(getApplicationContext(),"Введите все данные!",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            logIn(email,passwd);
             dialog.hide();
-            loadingGif.setVisibility(View.VISIBLE);
         });
     }
     private void showRegisterWindow(){
@@ -217,6 +229,8 @@ public class EnteringActivity extends AppCompatActivity {
                                         user.setIconUri(selectedIcoUri);
                                         selectedIcoUri = null;
                                         user.setBirthDate(selectedDate[0]);
+                                        user.setPassword(passwd);
+                                        user.saveLoginDataToFile(this);
 
                                         Toast.makeText(this,"Успешно зарегистрирован",Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(EnteringActivity.this,MainActivity.class));
@@ -224,12 +238,14 @@ public class EnteringActivity extends AppCompatActivity {
                                     })
                                     .addOnFailureListener(ex -> {
                                         Toast.makeText(this,ex.getMessage(),Toast.LENGTH_SHORT).show();
+                                        loadingGif.setVisibility(View.GONE);
                                     });
                             dialog.cancel();
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 System.out.println(e.getMessage());
+                                loadingGif.setVisibility(View.GONE);
                             }
                         });
 

@@ -47,11 +47,7 @@ public class Exercise implements Serializable {
     public ExerciseProgressParameter getProgressParameters() {
         if(progressParameters == null) {
             progressParameters = ExerciseProgressParameter.getExercisesParameterByName(name);
-            System.out.println("\nppppppp\n");
-            for(ExerciseProgressParameter ep:ProgressParameter.allExercisesParameters){
-                System.out.println(ep.getName());
-            }
-            System.out.println("\nppppppp\n");
+
             //System.out.println("ppp\n"+ProgressParameter.allExercisesParameters+"\nppp");
             if(progressParameters == null){
                 System.out.println("не гружу упр парам");

@@ -41,6 +41,8 @@ public class TrainingProgramRecyclerAdapter extends RecyclerView.Adapter<Trainin
 
         holder.name.setText(program.getName());
         holder.daysCount.setText(Integer.toString(program.getTrainingDays().size()));
+        holder.difficulty.setText(program.getDifficulty().toString());
+        holder.programIco.setImageResource(program.getIcoRes());
 
         if(MainActivity.user.getFavPrograms().contains(program))
             holder.favBtn.setImageResource(R.drawable.baseline_star_24_gold);
@@ -71,7 +73,7 @@ public class TrainingProgramRecyclerAdapter extends RecyclerView.Adapter<Trainin
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final ImageView programIco;
-        final TextView name, daysCount;
+        final TextView name, daysCount, difficulty;
         final ConstraintLayout root;
         final ImageButton favBtn;
         ViewHolder(View view){
@@ -81,6 +83,7 @@ public class TrainingProgramRecyclerAdapter extends RecyclerView.Adapter<Trainin
             daysCount = view.findViewById(R.id.trainingProgramButton_trainingDays);
             root= view.findViewById(R.id.trainingProgramButton_Root);
             favBtn = view.findViewById(R.id.trainingProgramButton_FavBtn);
+            difficulty = view.findViewById(R.id.trainingProgramButton_difficulty);
         }
     }
 }

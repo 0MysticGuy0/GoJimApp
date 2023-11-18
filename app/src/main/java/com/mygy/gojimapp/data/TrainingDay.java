@@ -33,4 +33,8 @@ public class TrainingDay implements Serializable {
     public void addExercise(Exercise exercise){
         exercises.add(exercise);
     }
+
+    public void setExercisesList(List<Exercise> exercises) {
+        this.exercises = exercises;
+    }
 }

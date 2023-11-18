@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.mygy.gojimapp.EnteringActivity;
 import com.mygy.gojimapp.MainActivity;
 import com.mygy.gojimapp.R;
 import com.mygy.gojimapp.data.User;
@@ -98,6 +99,15 @@ public class SettingsActivity extends AppCompatActivity {
                     //Toast.makeText(this, "Фото профиля не выбрано!", Toast.LENGTH_SHORT).show();
                 }
                     finish();
+            });
+
+            Button signOutBtn = findViewById(R.id.settings_signOutBtn);
+            signOutBtn.setOnClickListener(v -> {
+                usr.signOut(this);
+
+                Intent intent = new Intent(this, EnteringActivity.class);
+                startActivity(intent);
+                finish();
             });
         }else{
             finish();

@@ -1,10 +1,16 @@
 package com.mygy.gojimapp.data;
 
+import android.content.Context;
 import android.net.Uri;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
@@ -12,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 public class User implements Serializable {
     private String name = "Супер Имя";
@@ -19,10 +26,10 @@ public class User implements Serializable {
     private Uri iconUri;
     private String email;
     private String dockId;
+    private transient String password;
     private ArrayList<TrainingProgramm> favPrograms = new ArrayList<>();
     private static FirebaseFirestore usersBase;
     private HashMap<String, Object> userDocument = new HashMap<>(); // this will be saved to database
-    private int age = 18;
     public static SimpleDateFormat dateForamt;
 
     static {
@@ -30,7 +37,7 @@ public class User implements Serializable {
         dateForamt = new SimpleDateFormat("dd.MM.yyyy");
     }
 
-    public User() {
+    private void checkForBaseParameters() {
         if (ProgressParameter.getBodyParameterByName("вес") == null) {
             new ProgressParameter("вес", ProgressParameter.Group.BODY_PARAMETERS,
                     new ProgressParameter.ParameterInfo("вес", "кг"));
@@ -43,7 +50,14 @@ public class User implements Serializable {
             new ProgressParameter("Обхват талии", ProgressParameter.Group.BODY_PARAMETERS,
                     new ProgressParameter.ParameterInfo("обхват талии", "см"));
         }
+        if (ProgressParameter.getOtherParameterByName("Килокалории") == null) {
+            new ProgressParameter("Килокалории", ProgressParameter.Group.OTHER,
+                    new ProgressParameter.ParameterInfo("Употребил", "Ккал"));
+        }
+    }
 
+    public User() {
+        checkForBaseParameters();
         updateAllDataInDoc();
     }
 
@@ -73,7 +87,7 @@ public class User implements Serializable {
                 }
             }
             System.out.println("--------");
-        }catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             System.out.println("!!!!!cant get favprogs from base!!!!!!");
         }
 
@@ -84,13 +98,14 @@ public class User implements Serializable {
             }
             List<HashMap<String, Object>> exerciseParams = (List<HashMap<String, Object>>) userDocument.get(Constants.USER_ALL_EXERCISES_PARAMS);
             for (HashMap<String, Object> p : exerciseParams) {
-                System.out.println("\n"+p);
+                System.out.println("\n" + p);
                 ProgressParameter.getParameterFromDoc(p, ProgressParameter.Group.EXERCISES);
             }
             List<HashMap<String, Object>> otherParams = (List<HashMap<String, Object>>) userDocument.get(Constants.USER_ALL_OTHER_PARAMS);
             for (HashMap<String, Object> p : otherParams) {
                 ProgressParameter.getParameterFromDoc(p, ProgressParameter.Group.OTHER);
             }
+            checkForBaseParameters();
         } catch (NullPointerException ex) {
             System.out.println("!!!!!cant get parameters from base!!!!!!");
         }
@@ -142,28 +157,35 @@ public class User implements Serializable {
     public String getName() {
         return name;
     }
+
     public String getEmail() {
         return email;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
     public HashMap<String, Object> getUserDocument() {
         return userDocument;
     }
+
     public Uri getIconUri() {
         return iconUri;
     }
+
     public Date getBirthDate() {
         return birthDate;
     }
-    public String getFormattedBirthDate(){
-        if(birthDate == null) return "00.00.0000";
+
+    public String getFormattedBirthDate() {
+        if (birthDate == null) return "00.00.0000";
         return dateForamt.format(birthDate);
-    }
-    public int getAge() {
-        return age;
     }
     public String getDockId() {
         return dockId;
     }
+
     public ArrayList<TrainingProgramm> getFavPrograms() {
         return favPrograms;
     }
@@ -175,31 +197,41 @@ public class User implements Serializable {
         userDocument.put(Constants.USER_DOCK_ID, dockId);
         saveDataToBase();
     }
+
     public void setEmail(String email) {
         this.email = email;
         userDocument.put(Constants.USER_EMAIL, email);
         saveDataToBase();
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setIconUri(Uri iconUri) {
         this.iconUri = iconUri;
         userDocument.put(Constants.USER_ICO_URI, iconUri.toString());
         saveDataToBase();
     }
+
     public void setIconUri(String iconUri) {
         this.iconUri = Uri.parse(iconUri);
         userDocument.put(Constants.USER_ICO_URI, iconUri);
         saveDataToBase();
     }
+
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
         userDocument.put(Constants.USER_BIRTHDATE, birthDate);
         saveDataToBase();
     }
+
     public void setName(String name) {
         this.name = name;
         userDocument.put(Constants.USER_NAME, name);
         saveDataToBase();
     }
+
     public void addFavProgram(TrainingProgramm program) {
         favPrograms.add(program);
         updateFavProgramInDoc();
@@ -219,6 +251,55 @@ public class User implements Serializable {
                     .addOnFailureListener(ex -> {
                         System.out.println("----------Ошибка сохранения" + this.getEmail() + "-----------");
                     });
+        }
+    }
+    public void signOut(Context context){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signOut();
+        try (FileOutputStream fos = context.openFileOutput(Constants.LOGIN_FILE_NAME, Context.MODE_PRIVATE)) {
+            Properties properties = new Properties();
+            properties.setProperty(Constants.USER_EMAIL, "");
+            properties.setProperty(Constants.USER_PASSWORD, "");
+            properties.store(fos, "login data");
+            System.out.println("\n======================================REMOVED LOGIN DATA=======================================\n");
+        } catch (FileNotFoundException ex) {
+            System.out.println("!!!!!!!!!!!!!!!\nNO FILE TO REMOVE LOGIN DATA!\n!!!!!!!!!!!!!!!!!");
+            throw new RuntimeException();
+        } catch (IOException ex) {
+            System.out.println("ERROR REMOVING LOGIN DATA!!!!!!!!!!!!!");
+            throw new RuntimeException();
+        }
+    }
+
+    public void saveLoginDataToFile(Context context) {
+        try (FileOutputStream fos = context.openFileOutput(Constants.LOGIN_FILE_NAME, Context.MODE_PRIVATE)) {
+            Properties properties = new Properties();
+            properties.setProperty(Constants.USER_EMAIL, email);
+            properties.setProperty(Constants.USER_PASSWORD, password);
+            properties.store(fos, "login data");
+            System.out.println("\n======================================SAVED LOGIN DATA=======================================\n");
+        } catch (FileNotFoundException ex) {
+            System.out.println("!!!!!!!!!!!!!!!\nNO FILE TO SAVE LOGIN DATA!\n!!!!!!!!!!!!!!!!!");
+            throw new RuntimeException();
+        } catch (IOException ex) {
+            System.out.println("ERROR SAVING LOGIN DATA!!!!!!!!!!!!!");
+            throw new RuntimeException();
+        }
+    }
+
+    public static String[] readLoginDataFromFile(Context context) {
+        try(FileInputStream fis = context.openFileInput(Constants.LOGIN_FILE_NAME)){
+            Properties properties = new Properties();
+            properties.load(fis);
+            String[] data = new String[2];
+            data[0] = properties.getProperty(Constants.USER_EMAIL);
+            data[1] = properties.getProperty(Constants.USER_PASSWORD);
+            return data;
+        } catch (FileNotFoundException ex) {
+            return  null;
+        } catch (IOException ex) {
+            System.out.println("ERROR READING LOGIN DATA!!!!!!!!!!!!!\n"+ex.getMessage());
+            throw new RuntimeException();
         }
     }
 }

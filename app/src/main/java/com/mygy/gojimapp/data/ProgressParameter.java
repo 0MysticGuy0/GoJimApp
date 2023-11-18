@@ -190,6 +190,7 @@ public class ProgressParameter implements Serializable {
             try{
                 if(selectedDate[0] == null) {
                     Toast.makeText(fragmentActivity,"Не выбрана дата!!!",Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 Double values[] = new Double[inputsET.length];
                 for(int i =0;i<inputsET.length;i++){
